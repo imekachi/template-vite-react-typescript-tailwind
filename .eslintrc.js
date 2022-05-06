@@ -13,7 +13,7 @@ module.exports = {
       version: 'detect',
     },
   },
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ['@typescript-eslint', 'react', 'unused-imports', 'import'],
   extends: [
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -22,14 +22,47 @@ module.exports = {
   ],
   ignorePatterns: ['*.js'], // ignore files outside src
   rules: {
-    quotes: ['error', 'single', { avoidEscape: true }],
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': ['error', { forbid: ['>', '"', '}'] }],
-    '@typescript-eslint/no-empty-interface': 'warn',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-unused-vars': 'error',
-    'no-param-reassign': ['error'],
+    'no-param-reassign': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+    'import/no-cycle': 'error',
+    // Sort imports
+    'import/order': [
+      'warn',
+      {
+        pathGroups: [{ pattern: '@/**', group: 'internal' }],
+        alphabetize: { order: 'asc', caseInsensitive: true },
+        'newlines-between': 'never',
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+        ],
+      },
+    ],
+    'import/newline-after-import': 'warn',
+    'sort-imports': ['warn', { ignoreCase: true, ignoreDeclarationSort: true }],
+    'no-multiple-empty-lines': ['error', { max: 1 }],
+    'react/jsx-curly-brace-presence': [
+      'error',
+      { props: 'never', children: 'never' },
+    ],
   },
   overrides: [
     {
@@ -39,4 +72,4 @@ module.exports = {
       },
     },
   ],
-};
+}
